@@ -90,13 +90,7 @@ public:
     };
 
     const_iterator find(KeyType key) const noexcept {
-        const uint64_t hashed_key = hasher(key);
-        for (const auto &iter : iters[hashed_key % iters.size()]) {
-            if (iter->first == key) {
-                return iter;
-            }
-        }
-        return data.end();
+        return const_cast<HashMap *>(this)->find(key);
     };
 
     ValueType &operator[](const KeyType key) {
@@ -146,4 +140,6 @@ private:
             iters[hasher(iter->first) % iters.size()].push_back(iter);
         }
     };
+
+
 };
